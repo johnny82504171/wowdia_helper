@@ -34,7 +34,7 @@ namespace Withus.Controllers
             main.toolStripMenuItem_ProcessStart.Enabled = false;
             main.toolStripMenuItem_ProcessStop.Enabled = true;
             Thread thread = new Thread(new ThreadStart(HelperThread));
-            thread.Start();            
+            thread.Start();
         }
         private void HelperThread()
         {
@@ -43,11 +43,12 @@ namespace Withus.Controllers
             Thread gamezoneThread = new Thread(new ThreadStart(GameZoneWorker));
             gamezoneThread.Start();
 
-            Thread todayThread = new Thread(new ThreadStart(TodayWorker));
-            todayThread.Start();
+            //Thread todayThread = new Thread(new ThreadStart(TodayWorker));
+            //todayThread.Start();
 
-            Thread naverThread = new Thread(new ThreadStart(NaverWorker));
-            naverThread.Start();
+            //Thread naverThread = new Thread(new ThreadStart(NaverWorker));
+            //naverThread.Start();
+
             // IMG + TEXT = POSTER            
             /* 1. 실행 경로에서 POSTER를 가져온다.
              * 버전 87.0.4280.66(공식 빌드) (64비트)
@@ -83,14 +84,15 @@ namespace Withus.Controllers
 
         private void GameZoneWorker()
         {
-            int count = 0;
-            while (true)
+            string result = new Crawler().GamezoneHeler(main.gamezoneAccount, main.gamezonePassword, main.needView);
+            if (result.Contains("포인트 부족 또는 기타오류"))
             {
-                string result = new Crawler().GamezoneHeler();
-                count++;
-                main.Invoke(new Action(() => main.MessageAppender($"{count} : {result}")));
-                Thread.Sleep(1000);
-            }            
+                main.Invoke(new Action(() => main.MessageAppender($"오류발생 : {result}")));
+            }
+            else
+            {
+                main.Invoke(new Action(() => main.MessageAppender($"완료 : {result}")));
+            }
         }
         private void HelperThreadStop(object sender, EventArgs e)
         {

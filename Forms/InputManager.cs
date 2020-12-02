@@ -71,8 +71,11 @@ namespace Withus.Forms
                     main.gamezoneAccount = account;
                     main.gamezonePassword = encryptPassword;
                     panel_Gamezone.Visible = false;
-                    OutSystemMessage($"{main.gamezoneAccount}, {password} => {main.gamezonePassword}");
-                    TodayPanel_Initialize();
+                    OutSystemMessage($"{main.gamezoneAccount}, {main.gamezonePassword}");
+                    main.toolStripMenuItem_ProcessStart.Enabled = true;
+                    main.needView = checkBox_needView.Checked;
+                    this.Close();
+                    //TodayPanel_Initialize();
                     break;
                 case InfoTypes.Today:
                     main.todayAccount = account;

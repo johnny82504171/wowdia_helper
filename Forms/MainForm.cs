@@ -23,6 +23,7 @@ namespace Withus
         InputManager inputManager;
 
         public bool isHelperRunning = false;
+        public bool needView = false;
 
         public string gamezoneAccount = string.Empty;
         public string gamezonePassword = string.Empty;
@@ -39,6 +40,7 @@ namespace Withus
         private void MainForm_Load(object sender, EventArgs e)
         {
             IsMdiContainer = true;
+            this.Text = "Test Version: Only Gamezone _ 카톡문의 : InputCode";
             Create_SystemConsole();
             Create_InputManager();
         }
