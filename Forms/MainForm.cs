@@ -24,6 +24,8 @@ namespace Withus
 
         public bool isHelperRunning = false;
         public bool needView = false;
+        public bool needView1 = false;
+        public bool needView2 = false;
 
         public string gamezoneAccount = string.Empty;
         public string gamezonePassword = string.Empty;
@@ -40,7 +42,7 @@ namespace Withus
         private void MainForm_Load(object sender, EventArgs e)
         {
             IsMdiContainer = true;
-            this.Text = "Test Version: Only Gamezone _ 카톡문의 : InputCode";
+            this.Text = "Test Version: 게임존,투데이(구글계정x) _ 카톡문의 : InputCode";
             Create_SystemConsole();
             Create_InputManager();
         }

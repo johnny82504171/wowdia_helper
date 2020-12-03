@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Withus.Forms;
 using Withus.Utilitys;
 using Withus.Views;
 
@@ -43,8 +44,8 @@ namespace Withus.Controllers
             Thread gamezoneThread = new Thread(new ThreadStart(GameZoneWorker));
             gamezoneThread.Start();
 
-            //Thread todayThread = new Thread(new ThreadStart(TodayWorker));
-            //todayThread.Start();
+            Thread todayThread = new Thread(new ThreadStart(TodayWorker));
+            todayThread.Start();
 
             //Thread naverThread = new Thread(new ThreadStart(NaverWorker));
             //naverThread.Start();
@@ -72,26 +73,32 @@ namespace Withus.Controllers
 
         private void TodayWorker()
         {
-            int count = 0;
-            while (true)
-            {
-                string result = new Crawler().TodayHeler();
-                count++;
-                main.Invoke(new Action(() => main.MessageAppender($"{count} : {result}")));
-                Thread.Sleep(1000);
-            }
+            string result = new Crawler().TodayHelper(main.todayAccount, main.todayPassword, main.needView1);
+            ReturnResult(InputManager.InfoTypes.Today, result);
         }
 
         private void GameZoneWorker()
+        {            
+            string result = new Crawler().GamezoneHeler(main.gamezoneAccount, main.gamezonePassword, main.needView);            
+            ReturnResult(InputManager.InfoTypes.Gamezone, result);            
+        }
+
+        private void ReturnResult(InputManager.InfoTypes types, string result)
         {
-            string result = new Crawler().GamezoneHeler(main.gamezoneAccount, main.gamezonePassword, main.needView);
-            if (result.Contains("포인트 부족 또는 기타오류"))
+            switch (types)
             {
-                main.Invoke(new Action(() => main.MessageAppender($"오류발생 : {result}")));
-            }
-            else
-            {
-                main.Invoke(new Action(() => main.MessageAppender($"완료 : {result}")));
+                case InputManager.InfoTypes.Gamezone:
+                    if (result.Contains("포인트 부족 또는 기타오류"))
+                        main.Invoke(new Action(() => main.MessageAppender($"[게임존]오류발생 : {result}")));                   
+                    else                   
+                        main.Invoke(new Action(() => main.MessageAppender($"[게임존]완료 : {result}")));                    
+                    break;
+                case InputManager.InfoTypes.Today:
+                    if (result.Contains("포인트 부족 또는 기타오류"))
+                        main.Invoke(new Action(() => main.MessageAppender($"[투데이서버]오류발생 : {result}")));
+                    else
+                        main.Invoke(new Action(() => main.MessageAppender($"[투데이서버]완료 : {result}")));
+                    break;
             }
         }
         private void HelperThreadStop(object sender, EventArgs e)

@@ -74,20 +74,22 @@ namespace Withus.Forms
                     OutSystemMessage($"{main.gamezoneAccount}, {main.gamezonePassword}");
                     main.toolStripMenuItem_ProcessStart.Enabled = true;
                     main.needView = checkBox_needView.Checked;
-                    this.Close();
-                    //TodayPanel_Initialize();
+                    TodayPanel_Initialize();
                     break;
                 case InfoTypes.Today:
                     main.todayAccount = account;
                     main.todayPassword = encryptPassword;
                     panel_Today.Visible = false;
-                    OutSystemMessage($"{main.todayAccount}, {password} => {main.todayPassword}");
-                    NaverPanel_Initialize();
+                    OutSystemMessage($"{main.todayAccount}, {main.todayPassword}");
+                    main.needView1 = checkBox_needView1.Checked;
+                    this.Close();
+                    //NaverPanel_Initialize();
                     break;
                 case InfoTypes.Naver:
                     main.naverAccount = account;
                     main.naverPassword = encryptPassword;
                     OutSystemMessage($"{main.naverAccount}, {password} => {main.naverPassword}");
+                    main.needView2 = checkBox_needView2.Checked;
                     main.toolStripMenuItem_ProcessStart.Enabled = true;                          
                     this.Close();
                     break;
